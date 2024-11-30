@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Aplikasi Pengajuan Ijin Belajar Pegawai Kementerian Agama">
+    <meta name="author" content="Martinus & Caesar & Aini">
+
+    <title>SiTULAR - Input Ajuan</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" th:rel="stylesheet" type="text/css">
+    <link
+        th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+        th:rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" th:rel="stylesheet">
+
+    <!-- Custom styles for flatpickr-->
+    <link th:rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
+    <link th:rel="stylesheet" th:href="@{https://npmcdn.com/flatpickr/dist/themes/material_green.css}">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:replace="~{fragments/topbar :: topbar}"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 text-gray-800">Ajuan Ijin Belajar</h1>
+                    <p class="mb-4">Layanan formulir Ajuan Ijin Belajar Pegawai Kementerian Agama</p>
+                    <div class="card shadow h-100">
+                        <form th:object="${ajuan}" th:action="@{/ajuan/save}" id="formAjuan" method="POST">
+                            <div class="card-header border-left-success">
+                                <div th:if="${response == 'success'}" class="alert alert-success alert-dismissible">
+                                    <button class="close" type="button" data-dismiss="alert"
+                                        aria-label="Close Notification">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    Data ajuan berhasil ditambahkan.
+                                </div>
+                                <div th:if="${response == 'failed'}" class="alert alert-danger alert-dismissible">
+                                    <button class="close" type="button" data-dismiss="alert"
+                                        aria-label="Close Notification">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    Terjadi kesalahan, data gagal ditambahkan.
+                                </div>
+                                <h1 class="h4 card-title my-auto">Formulir Ajuan Ijin Belajar</h1>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="pegawai">Nama Pegawai</label>
+                                    <select th:field="*{pegawai}" id="pegawai" th:each="peg : ${dataPegawai}"
+                                        class="col form-control form-control-lg mr-4">
+                                        <option th:value="${peg}">[[${peg.nama}]]</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('pegawai')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{pegawai}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="jenjang">Jenjang Pendidikan</label>
+                                    <select th:field="*{jenjangPendidikan}" id="jenjang"
+                                        class="col form-control form-control-lg mr-4">
+                                        <option value="S1 - Sarjana">Sarjana (S1)</option>
+                                        <option value="S2 - Magister">Magister (S2)</option>
+                                        <option value="S3 - Doktor">Doktor (S3)</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('jenjangPendidikan')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{jenjangPendidikan}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="prodi">Program Studi</label>
+                                    <input th:field="*{namaProdi}" type="text" id="prodi"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Ilmu Pemerintahan">
+                                    <div th:if="${#fields.hasErrors('namaProdi')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{namaProdi}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="namaFalkutas">Falkutas</label>
+                                    <input th:field="*{namaFalkutas}" type="text" id="namaFalkutas"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Ekonomi">
+                                    <div th:if="${#fields.hasErrors('namaFalkutas')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{namaFalkutas}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="namaUniversitas">Falkutas</label>
+                                    <input th:field="*{namaUniversitas}" type="text" id="namaUniversitas"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Universitas Borneo">
+                                    <div th:if="${#fields.hasErrors('namaUniversitas')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{namaUniversitas}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="studi">Studi Konsentrasi</label>
+                                    <input th:field="*{studiKonsentrasi}" type="text" id="studi"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Cyber Security">
+                                    <div th:if="${#fields.hasErrors('studiKonsentrasi')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{studiKonsentrasi}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="suratPermohonan">Surat Permohonan</label>
+                                    <input th:field="*{suratPermohonan}" type="text" id="suratPermohonan"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Link surat permohonan (Google Drive)">
+                                    <div th:if="${#fields.hasErrors('suratPermohonan')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{suratPermohonan}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="jadwalKuliah">Jadwal Kuliah</label>
+                                    <input th:field="*{jadwalKuliah}" type="text" id="jadwalKuliah"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Link jadwal kuliah (Google Drive)">
+                                    <div th:if="${#fields.hasErrors('jadwalKuliah')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{jadwalKuliah}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="akreditasi">Akreditasi Prodi</label>
+                                    <input th:field="*{akreditasiProdi}" type="text" id="akreditasi"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Link akreditasi (Google Drive)">
+                                    <div th:if="${#fields.hasErrors('akreditasiProdi')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{akreditasiProdi}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="suratDiterima">Surat Diterima</label>
+                                    <input th:field="*{suratDiterima}" type="text" id="suratDiterima"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Link surat diterima Universitas (Google Drive)">
+                                    <div th:if="${#fields.hasErrors('suratDiterima')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{suratDiterima}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="tanggal">Tanggal Diterima</label>
+                                    <input th:field="*{tglDiterima}" type="text" id="tanggal"
+                                        class="col form-control form-control-lg mr-4" placeholder="Pilih tanggal diterima Universitas"
+                                        readonly>
+                                    <div th:if="${#fields.hasErrors('tglDiterima')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{tglDiterima}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="atasan">Nama Atasan</label>
+                                    <select th:field="*{namaAtasan}" id="atasan" class="col form-control form-control-lg mr-4">
+                                        <option value="H. Iramsyah Noor, S.Ag., M.AP.">H. Iramsyah Noor, S.Ag., M.AP.</option>
+                                        <option value="H. Mansur, S.Ag">H. Mansur, S.Ag</option>
+                                        <option value="H. Arie Nova Rachmansyah, SE, M.Si">H. Arie Nova Rachmansyah, SE, M.Si</option>
+                                        <option value="H. Anggraito, SE., M.Si">H. Anggraito, SE., M.Si</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('namaAtasan')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{namaAtasan}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer border-bottom-success">
+                                <div class="form-group row mt-4">
+                                    <button type="submit"
+                                        class="col-4 btn btn-lg btn-outline-success ml-auto mr-4">Ajukan
+                                        Ijin Belajar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:replace="~{fragments/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Flatpickr -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <!-- Helper library -->
+    <script th:src="@{/js/helper.js}"></script>
+    <script th:if="${response}">
+        document.querySelector("#formPegawai").reset();
+    </script>
+
+</body>
+
+</html>

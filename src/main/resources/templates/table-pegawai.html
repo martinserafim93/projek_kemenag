@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Aplikasi Pengajuan Ijin Belajar Pegawai Kementerian Agama">
+    <meta name="author" content="Martinus & Caesar & Aini">
+
+    <title>SiTULAR - Input Pegawai</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" th:rel="stylesheet" type="text/css">
+    <link
+        th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+        th:rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" th:rel="stylesheet">
+
+    <!-- Custom styles for flatpickr-->
+    <link th:rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
+    <link th:rel="stylesheet" th:href="@{https://npmcdn.com/flatpickr/dist/themes/material_green.css}">
+
+    <!-- Custom styles for this page -->
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" th:rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:replace="~{fragments/topbar :: topbar}"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <h1 class="h3 mb-2 text-gray-800">Data Pegawai</h1>
+                    <p class="mb-4">Data Pegawai <strong>SiTULAR</strong> bukan merupakan data dari <strong>SIMPEG
+                            Kementerian Agama.</strong></p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header border-left-success py-3">
+                            <div th:if="${response == 'success'}" class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close Notification">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                Data berhasil dirubah.
+                            </div>
+                            <div th:if="${response == 'failed'}" class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close Notification">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                Data gagal dirubah.
+                            </div>
+                            <h6 class="m-0 font-weight-bold text-success">PNS & P3K</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-striped">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="bg-success text-light">
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>NIP</th>
+                                            <th>Nama</th>
+                                            <th>Pangkat & Golongan </th>
+                                            <th>Pendidikan Terakhir</th>
+                                            <th>Jabatan</th>
+                                            <th>Unit Kerja</th>
+                                            <th>Sub Unit Kerja</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:if="${data.size() == 0}">
+                                            <td colspan="9" class="text-center">Data Pegawai Kosong</td>
+                                        </tr>
+                                        <tr th:unless="${data.size() == 0}" th:each="pegawai, status : ${data}">
+                                            <td>[[${status.count}]]</td>
+                                            <td>[[${pegawai.nip}]]</td>
+                                            <td>[[${pegawai.nama}]]</td>
+                                            <td>[[${pegawai.pangkatGol}]]</td>
+                                            <td>[[${pegawai.pendidikan}]]</td>
+                                            <td>[[${pegawai.jabatan}]]</td>
+                                            <td>[[${pegawai.unitKerja}]]</td>
+                                            <td>[[${pegawai.subUnitKerja}]]</td>
+                                            <td>
+                                                <a th:href="@{/pegawai/edit/{id}(id=${pegawai.id})}"
+                                                    class="btn btn-warning btn-icon-split mb-2" data-toggle="modal"
+                                                    data-target="#editModal">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a th:href="@{/pegawai/delete/{id}(id=${pegawai.id})}"
+                                                    th:nip="${pegawai.nip}"
+                                                    class="btn btn-danger btn-icon-split mb-2" data-toggle="modal"
+                                                    data-target="#deleteModal">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:replace="~{fragments/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" aria-labelledby="editModalPegawai" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form th:action="@{/pegawai/update}" method="POST">
+
+                <div class="modal-content">
+
+                    <div class="modal-header bg-success">
+                        <h4 class="modal-title text-gray-100" id="editModalPegawai">Edit Data Pegawai</h4>
+                        <button class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="text-gray-200" aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="id" id="idPeg">
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="nip">NIP</label>
+                            <input type="text" name="nip" id="nip" class="col form-control form-control-lg mr-4"
+                                placeholder="NIP Pegawai">
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="nama">Nama</label>
+                            <input type="text" name="nama" id="nama" class="col form-control form-control-lg mr-4"
+                                placeholder="Nama lengkap & gelar">
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="ttl">Tempat & Tgl. Lahir</label>
+                            <input type="text" id="tempatL" name="tempatL" class="col form-control form-control-lg mr-4"
+                                placeholder="Contoh : Bulungan">
+                            <input type="text" id="tanggal" name="tanggalLahir"
+                                class="col form-control form-control-lg mr-4" placeholder="Pilih tanggal lahir"
+                                readonly>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="pangkatGol">Pangkat / Gol</label>
+                            <select name="pangkatGol" id="pangkatGol" class="col form-control form-control-lg mr-4">
+                                <option value="Penata Muda / IIIa">Penata Muda - III/A</option>
+                                <option value="Penata Muda Tk.1 / IIIb">Penata Muda Tk.1 - III/B</option>
+                                <option value="Penata / IIIc">Penata - III/C</option>
+                                <option value="Penata Tk.1 / IIId">Penata Tk.1 - III/D</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="pendidikan">Pendidikan
+                                Terakhir</label>
+                            <input type="text" name="pendidikan" id="pendidikan"
+                                class="col form-control form-control-lg mr-4" placeholder="Contoh : S1 (Ilmu Ekonomi)">
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="jabatan">Jabatan</label>
+                            <input type="text" name="jabatan" id="jabatan" class="col form-control form-control-lg mr-4"
+                                placeholder="Contoh : Pranata Penyuluh Ahli Pertama">
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="unitKerja">Unit Kerja</label>
+                            <select name="unitKerja" id="unitKerja" class="col form-control form-control-lg mr-4">
+                                <option value="Kanwil Kemenag Kaltara">Kanwil Kementerian Agama Prov. Kalimantan Utara
+                                </option>
+                                <option value="Kemenag Bulungan">Kantor Kemenag Bulungan</option>
+                                <option value="Kemenag Tarakan">Kantor Kemenag Kota Tarakan</option>
+                                <option value="Kemenag Nunukan">Kantor Kemenag Kab. Nunukan</option>
+                                <option value="Kemenag Tana Tidung">Kantor Kemenag Kab. Tana Tidung</option>
+                                <option value="Kemenag Malinau">Kantor Kemenag Kab. Malinau</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 my-auto h5 font-weight-bold" for="subUnit">Sub Unit Kerja</label>
+                            <select name="subUnitKerja" id="subUnit" class="col form-control form-control-lg mr-4">
+                                <option value="Sekjen">Sekretariat Jenderal</option>
+                                <option value="PHU">PHU</option>
+                                <option value="Bimas Islam">Bimas Islam</option>
+                                <option value="Bimas Kristen">Bimas Kristen</option>
+                                <option value="Bimas Katolik">Bimas Katolik</option>
+                                <option value="Bimas Buddha">Bimas Buddha</option>
+                                <option value="Bimas Hindu">Bimas Hindu</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group row">
+                            <button type="button" class="col btn btn btn-lg btn-warning ml-auto mr-3"
+                                data-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="col btn btn btn-lg btn-success  mr-2">
+                                Update</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus Data Pegawai</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p id="confirmText"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a id="yesBtn" class="btn btn-danger">Iya</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Flatpickr -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+    <!-- Helper library -->
+    <script th:src="@{/js/helper.js}"></script>
+    <script th:src="@{/js/helper-button.js}"></script>
+
+</body>
+
+</html>

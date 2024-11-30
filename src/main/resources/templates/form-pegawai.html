@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Aplikasi Pengajuan Ijin Belajar Pegawai Kementerian Agama">
+    <meta name="author" content="Martinus & Caesar & Aini">
+
+    <title>SiTULAR - Input Pegawai</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" th:rel="stylesheet" type="text/css">
+    <link
+        th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+        th:rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" th:rel="stylesheet">
+
+    <!-- Custom styles for flatpickr-->
+    <link th:rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
+    <link th:rel="stylesheet" th:href="@{https://npmcdn.com/flatpickr/dist/themes/material_green.css}">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:replace="~{fragments/topbar :: topbar}"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 text-gray-800">Daftar Pegawai</h1>
+                    <p class="mb-4">Layanan formulir daftar PNS & P3K Kementerian Agama</p>
+                    <div class="card shadow h-100">
+                        <form th:object="${pegawai}" th:action="@{/pegawai/save}" id="formPegawai" method="POST">
+                            <div class="card-header border-left-success">
+                                <div th:if="${response == 'success'}" class="alert alert-success alert-dismissible">
+                                    <button class="close" type="button" data-dismiss="alert"
+                                        aria-label="Close Notification">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    Data Pegawai berhasil ditambahkan.
+                                </div>
+                                <div th:if="${response == 'failed'}" class="alert alert-danger alert-dismissible">
+                                    <button class="close" type="button" data-dismiss="alert"
+                                        aria-label="Close Notification">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    Terjadi kesalahan, data gagal ditambahkan.
+                                </div>
+                                <h1 class="h4 card-title my-auto">Formulir Daftar Pegawai</h1>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="nip">NIP</label>
+                                    <input th:field="*{nip}" type="text" id="nip"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : 194508172000081123">
+                                    <div th:if="${#fields.hasErrors('nip')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{nip}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="nama">Nama</label>
+                                    <input th:field="*{nama}" type="text" id="nama"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Pratama Ahri, S.Ag">
+                                    <div th:if="${#fields.hasErrors('nama')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{nama}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="tglLahir">Tempat & Tgl.
+                                        Lahir</label>
+                                    <input th:field="*{tempatL}" type="text" id="tempatL"
+                                        class="col form-control form-control-lg mr-4" placeholder="Contoh : Bulungan">
+                                    <input th:field="*{tanggalLahir}" type="text" id="tanggal"
+                                        class="col form-control form-control-lg mr-4" placeholder="Pilih tanggal lahir"
+                                        readonly>
+                                    <div th:if="${#fields.hasErrors('tempatL')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{tempatL}"></span>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('tanggalLahir')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{tanggalLahir}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="pangkatGol">Pangkat /
+                                        Gol</label>
+                                    <select th:field="*{pangkatGol}" id="pangkatGol"
+                                        class="col form-control form-control-lg mr-4">
+                                        <option value="Penata Muda / IIIa">Penata Muda - III/A</option>
+                                        <option value="Penata Muda Tk.1 / IIIb">Penata Muda Tk.1 - III/B</option>
+                                        <option value="Penata / IIIc">Penata - III/C</option>
+                                        <option value="Penata Tk.1 / IIId">Penata Tk.1 - III/D</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('pangkatGol')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{pangkatGol}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="pendidikan">Pendidikan
+                                        Terakhir</label>
+                                    <input th:field="*{pendidikan}" type="text" id="pendidikan"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : S1 (Ilmu Ekonomi)">
+                                    <div th:if="${#fields.hasErrors('pendidikan')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{pendidikan}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="jabatan">Jabatan</label>
+                                    <input th:field="*{jabatan}" type="text" id="jabatan"
+                                        class="col form-control form-control-lg mr-4"
+                                        placeholder="Contoh : Pranata Penyuluh Ahli Pertama">
+                                    <div th:if="${#fields.hasErrors('jabatan')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{jabatan}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="unitKerja">Unit Kerja</label>
+                                    <select th:field="*{unitKerja}" id="unitKerja"
+                                        class="col form-control form-control-lg mr-4">
+                                        <option value="Kanwil Kemenag Kaltara">Kanwil Kementerian Agama Prov.
+                                            Kalimantan Utara</option>
+                                        <option value="Kemenag Bulungan">Kantor Kemenag Bulungan</option>
+                                        <option value="Kemenag Tarakan">Kantor Kemenag Kota Tarakan</option>
+                                        <option value="Kemenag Nunukan">Kantor Kemenag Kab. Nunukan</option>
+                                        <option value="Kemenag Tana Tidung">Kantor Kemenag Kab. Tana Tidung</option>
+                                        <option value="Kemenag Malinau">Kantor Kemenag Kab. Malinau</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('unitKerja')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{unitKerja}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4 my-auto h5 font-weight-bold" for="subUnit">Sub Unit
+                                        Kerja</label>
+                                    <select th:field="*{subUnitKerja}" id="subUnit"
+                                        class="col form-control form-control-lg mr-4">
+                                        <option value="Sekjen">Sekretariat Jenderal</option>
+                                        <option value="PHU">PHU</option>
+                                        <option value="Bimas Islam">Bimas Islam</option>
+                                        <option value="Bimas Kristen">Bimas Kristen</option>
+                                        <option value="Bimas Katolik">Bimas Katolik</option>
+                                        <option value="Bimas Buddha">Bimas Buddha</option>
+                                        <option value="Bimas Hindu">Bimas Hindu</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('subUnitKerja')}"
+                                        class="alert alert-danger alert-dismissible mr-4">
+                                        <button class="close" type="button" data-dismiss="alert"
+                                            aria-label="Close Notification">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <span th:errors="*{subUnitKerja}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer border-bottom-success">
+                                <div class="form-group row mt-4">
+                                    <button type="submit"
+                                        class="col-4 btn btn-lg btn-outline-success ml-auto mr-4">Daftar
+                                        Pegawai</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:replace="~{fragments/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Flatpickr -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <!-- Helper library -->
+    <script th:src="@{/js/helper.js}"></script>
+    <script th:if="${response}">
+        document.querySelector("#formPegawai").reset();
+    </script>
+
+</body>
+
+</html>

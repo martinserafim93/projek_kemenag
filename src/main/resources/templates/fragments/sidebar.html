@@ -1,0 +1,67 @@
+    <ul th:fragment="sidebar" class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-people-carry"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">SiTULAR <sup>0.1</sup></div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li th:class="${page == 'index'} ? 'nav-item active' : 'nav-item'">
+            <a class="nav-link" th:href="@{/}">
+                <i class="fas fa-fw fa-home"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Layanan
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li th:class="${page == 'pegawai'} ? 'nav-item active' : 'nav-item'">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-database"></i>
+                <span>Pegawai</span>
+            </a>
+            <div id="collapsePages" th:class="${page == 'pegawai'} ? 'collapse show' : 'collapse'" aria-labelledby="headingPages"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a th:class="${daftar} ? 'collapse-item active' : 'collapse-item'" th:href="@{/pegawai/create}">Daftar</a>
+                    <a th:class="${dataPegawai} ? 'collapse-item active' : 'collapse-item'"
+                       th:href="@{/pegawai/show}">Data Pegawai</a>
+                </div>
+            </div>
+        </li>
+
+        <li th:class="${page == 'IB'} ? 'nav-item active' : 'nav-item'">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Ijin Belajar</span>
+            </a>
+            <div id="collapsePages2" th:class="${page == 'IB'} ? 'collapse show' : 'collapse'" aria-labelledby="headingPages"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a th:class="${form} ? 'collapse-item active' : collapse-item" th:href="@{/ajuan/create}">Form Ajuan</a>
+                    <a class="collapse-item" href="#">Daftar Ajuan</a>
+                    <a class="collapse-item" href="404.html">Histori Ajuan</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
